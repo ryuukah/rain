@@ -6,7 +6,7 @@ const messages = [
 
   {
     text: "Gaul says hi",
-    image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=800&q=80"
+    image: "images/gaul.jpg"
   },
 
   {
@@ -34,6 +34,7 @@ let currentMessage = 0;
 
 function showMessage(index) {
 
+  // Small fade-out
   card.classList.remove("show");
   card.classList.add("hide");
 
@@ -41,48 +42,46 @@ function showMessage(index) {
 
     const current = messages[index];
 
+    // Change text
     message.textContent = current.text;
 
+    // Change/remove image
     if (current.image) {
-
-      message.style.display = "flex";
-
       imageContainer.style.display = "block";
       messageImage.src = current.image;
-
     } else {
-
       imageContainer.style.display = "none";
       messageImage.src = "";
-
     }
 
+    // Fade back in
     card.classList.remove("hide");
     card.classList.add("show");
 
-  }, 250);
+  }, 200);
 }
 
 
 /*
-   Change message every 1.5 seconds
+   CLICK THE MESSAGE TO CHANGE IT
 */
 
-setInterval(() => {
+card.addEventListener("click", () => {
 
   currentMessage++;
 
+  // Go back to the first message after the last one
   if (currentMessage >= messages.length) {
     currentMessage = 0;
   }
 
   showMessage(currentMessage);
 
-}, 1500);
+});
 
 
 /*
-   Start animation
+   Start with the first message
 */
 
-card.classList.add("show");
+showMessage(0);
