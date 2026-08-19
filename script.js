@@ -1,27 +1,32 @@
 const messages = [
   {
-    text: "who is Flo and why is he texting you about your period",
+    text: "Sorry i've been like an absent father and neglected you. I'm correcting your homework.",
     image: null
   },
 
   {
-    text: "Gaul says hi",
+    text: "You looked distressed today. Everything okay?",
     image: null
   },
 
   {
-    text: "It's cold, bring a jacket",
+    text: "It's cold, brought you a jacket. Don't get sick.",
     image: null
   },
 
   {
-    text: "Do you want... a matcha",
+    text: "You forgot this in my house... Will you come over soon?",
+    image: images/bracelet.jpg
+  },
+
+  {
+    text: "Do yuo want. cofe ??",
     image: null
   },
 
   {
-    text: "who is Cloud Strife",
-    image: null
+    text: "It looks pretty today. 당신처럼요.",
+    image: images/cheri.jpg
   }
 ];
 
