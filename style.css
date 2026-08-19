@@ -52,11 +52,6 @@ body {
 .message-card {
   width: min(360px, calc(100vw - 40px));
 
-  /*
-    The height is controlled by JavaScript.
-    This allows the card to smoothly animate between
-    different content heights.
-  */
   height: auto;
 
   padding: 12px;
@@ -83,9 +78,7 @@ body {
 }
 
 
-/*
-  Small press effect.
-*/
+/* CLICK / PRESS EFFECT */
 
 .message-card:active {
   transform: scale(0.985);
@@ -162,10 +155,6 @@ body {
 
   gap: 8px;
 
-  /*
-    This is the element that fades during transitions.
-  */
-
   opacity: 1;
 
   transition:
@@ -199,10 +188,6 @@ body {
 
   border-radius: 9999px;
 
-  /*
-    Subtle inset depth.
-  */
-
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
@@ -220,7 +205,8 @@ body {
 
 
 /* =========================================================
-   WHITE PILL IMAGE
+   IMAGE CONTAINER
+   Rectangular instead of pill-shaped
 ========================================================= */
 
 .image-pill {
@@ -232,13 +218,18 @@ body {
 
   background: #ffffff;
 
-  border-radius: 9999px;
+  border-radius: 16px;
 
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
   overflow: hidden;
 }
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .image-pill img {
   display: block;
@@ -250,7 +241,7 @@ body {
 
   object-fit: cover;
 
-  border-radius: 9999px;
+  border-radius: 11px;
 }
 
 
@@ -275,12 +266,17 @@ body {
   .message-pill {
     font-size: 11px;
 
-    padding:
-      11px 14px;
+    padding: 11px 14px;
+  }
+
+  .image-pill {
+    border-radius: 14px;
   }
 
   .image-pill img {
     max-height: 200px;
+
+    border-radius: 10px;
   }
 
 }
