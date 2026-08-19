@@ -93,44 +93,68 @@ body {
 ========================================================= */
 
 .message-header {
-  min-height: 30px;
+  min-height: 38px;
 
   display: flex;
   align-items: center;
 
-  gap: 6px;
+  gap: 7px;
 
-  margin-bottom: 8px;
+  margin-bottom: 9px;
 
   padding: 0 3px;
 }
 
-.avatar {
-  width: 26px;
-  height: 26px;
 
-  flex: 0 0 26px;
+/* =========================================================
+   AVATAR / GIF
+   Bigger + white border
+========================================================= */
+
+.avatar {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
 
   object-fit: cover;
 
-  border-radius: 9px;
+  border-radius: 11px;
 
-  background: #d0d2d5;
+  /*
+    White frame surrounding the GIF/avatar.
+  */
+
+  border: 3px solid #ffffff;
+
+  background: #ffffff;
+
+  /*
+    Very soft depth around the white frame.
+  */
 
   box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.08),
     inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
+
+
+/* =========================================================
+   USERNAME
+========================================================= */
 
 .username {
   color: #17181a;
 
   font-size: 11px;
+
   font-weight: 650;
 
   letter-spacing: -0.1px;
 
   white-space: nowrap;
 }
+
 
 .username-extra {
   color: #303236;
@@ -151,6 +175,7 @@ body {
   width: 100%;
 
   display: flex;
+
   flex-direction: column;
 
   gap: 8px;
@@ -163,13 +188,15 @@ body {
   will-change: opacity;
 }
 
+
 .content-wrapper.fading {
   opacity: 0;
 }
 
 
 /* =========================================================
-   WHITE PILL TEXT
+   TEXT CONTAINER
+   White pill
 ========================================================= */
 
 .message-pill {
@@ -180,16 +207,50 @@ body {
   padding: 12px 15px;
 
   display: flex;
+
   align-items: center;
 
   background: #ffffff;
-
-  color: #17181a;
 
   border-radius: 9999px;
 
   box-shadow:
     inset 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /*
+    Very subtle vertical text gradient.
+
+    Bottom = slightly darker
+    Top = slightly lighter
+  */
+
+  background-image: linear-gradient(
+    to top,
+    #34363a 0%,
+    #3d3f43 45%,
+    #484a4f 100%
+  );
+
+  background-color: #ffffff;
+
+  /*
+    Makes the gradient apply only to the text.
+  */
+
+  color: transparent;
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  /*
+    The actual white pill needs its own background
+    through a pseudo-element.
+  */
+
+  position: relative;
+
+  overflow: hidden;
 
   font-size: 11px;
 
@@ -198,15 +259,58 @@ body {
   letter-spacing: -0.05px;
 
   overflow-wrap: anywhere;
+}
 
-  transition:
-    opacity 0.2s ease;
+
+/*
+   White background behind the text while preserving
+   the gradient text.
+*/
+
+.message-pill::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: #ffffff;
+
+  border-radius: inherit;
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   TEXT GRADIENT
+   Keeps text subtle rather than strongly colored
+========================================================= */
+
+.message-pill {
+  /*
+    The gradient is intentionally very close in value,
+    so it looks like a soft tonal shift rather than
+    a colorful gradient.
+  */
+
+  background:
+    linear-gradient(
+      to top,
+      #34363a 0%,
+      #3d3f43 50%,
+      #484a4f 100%
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
 }
 
 
 /* =========================================================
    IMAGE CONTAINER
-   Rectangular instead of pill-shaped
+   Wide rectangular white frame
 ========================================================= */
 
 .image-pill {
@@ -214,14 +318,24 @@ body {
 
   width: 100%;
 
+  /*
+    Thin white frame around the actual image.
+  */
+
   padding: 5px;
 
   background: #ffffff;
 
-  border-radius: 16px;
+  /*
+    NOT a pill.
+    Soft rectangular corners like your reference.
+  */
+
+  border-radius: 18px;
 
   box-shadow:
-    inset 0 1px 3px rgba(0, 0, 0, 0.06);
+    inset 0 1px 3px rgba(0, 0, 0, 0.06),
+    0 1px 3px rgba(0, 0, 0, 0.04);
 
   overflow: hidden;
 }
@@ -229,19 +343,41 @@ body {
 
 /* =========================================================
    IMAGE
+   Wide ~3:1 shape
 ========================================================= */
 
 .image-pill img {
   display: block;
 
   width: 100%;
-  height: auto;
 
-  max-height: 240px;
+  /*
+    This is what gives the image the same wide,
+    horizontal shape as your reference.
+  */
+
+  aspect-ratio: 3 / 1;
+
+  height: auto;
 
   object-fit: cover;
 
-  border-radius: 11px;
+  object-position: center;
+
+  /*
+    Rectangular corners, NOT circular/pill-shaped.
+  */
+
+  border-radius: 13px;
+}
+
+
+/* =========================================================
+   IMAGE LOADING
+========================================================= */
+
+.image-pill img {
+  background: #e7e7e7;
 }
 
 
@@ -255,6 +391,7 @@ body {
     padding: 15px;
   }
 
+
   .message-card {
     width: calc(100vw - 30px);
 
@@ -263,20 +400,83 @@ body {
     border-radius: 22px;
   }
 
+
+  /* Slightly smaller avatar on phones */
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+
+    flex-basis: 32px;
+
+    border-width: 3px;
+
+    border-radius: 10px;
+  }
+
+
+  .message-header {
+    min-height: 36px;
+
+    margin-bottom: 8px;
+  }
+
+
   .message-pill {
     font-size: 11px;
 
-    padding: 11px 14px;
+    padding:
+      11px 14px;
   }
+
+
+  /*
+    Keep the same wide image ratio on mobile.
+  */
 
   .image-pill {
-    border-radius: 14px;
+    padding: 5px;
+
+    border-radius: 16px;
   }
 
-  .image-pill img {
-    max-height: 200px;
 
-    border-radius: 10px;
+  .image-pill img {
+    aspect-ratio: 3 / 1;
+
+    border-radius: 11px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 350px) {
+
+  .message-card {
+    width: calc(100vw - 24px);
+
+    padding: 10px;
+
+    border-radius: 20px;
+  }
+
+
+  .message-pill {
+    padding: 10px 13px;
+
+    font-size: 10.5px;
+  }
+
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+
+    flex-basis: 30px;
   }
 
 }
