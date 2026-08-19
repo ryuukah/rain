@@ -6,7 +6,7 @@ const messages = [
 
   {
     text: "Gaul says hi",
-    image: "images/gaul.jpg"
+    image: null
   },
 
   {
@@ -32,45 +32,45 @@ const messageImage = document.getElementById("messageImage");
 
 let currentMessage = 0;
 
+
+/* SHOW MESSAGE */
+
 function showMessage(index) {
 
-  // Small fade-out
+  const current = messages[index];
+
   card.classList.remove("show");
   card.classList.add("hide");
 
   setTimeout(() => {
 
-    const current = messages[index];
-
-    // Change text
     message.textContent = current.text;
 
-    // Change/remove image
     if (current.image) {
+
       imageContainer.style.display = "block";
       messageImage.src = current.image;
+
     } else {
+
       imageContainer.style.display = "none";
       messageImage.src = "";
+
     }
 
-    // Fade back in
     card.classList.remove("hide");
     card.classList.add("show");
 
-  }, 200);
+  }, 150);
 }
 
 
-/*
-   CLICK THE MESSAGE TO CHANGE IT
-*/
+/* CLICK = NEXT MESSAGE */
 
-card.addEventListener("click", () => {
+card.addEventListener("click", function () {
 
   currentMessage++;
 
-  // Go back to the first message after the last one
   if (currentMessage >= messages.length) {
     currentMessage = 0;
   }
@@ -80,8 +80,6 @@ card.addEventListener("click", () => {
 });
 
 
-/*
-   Start with the first message
-*/
+/* FIRST MESSAGE */
 
-showMessage(0);
+card.classList.add("show");
