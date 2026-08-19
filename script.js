@@ -1,6 +1,7 @@
 const messages = [
+
   {
-    text: "Sorry i've been like an absent father and neglected you. I'm correcting your homework.",
+    text: "Sorry i've been like an absent father and neglected you. I'm correcting your homework",
     image: null
   },
 
@@ -16,7 +17,7 @@ const messages = [
 
   {
     text: "You forgot this in my house... Will you come over soon?",
-    image: images/bracelet.jpg
+    image: "bracelet.jpg"
   },
 
   {
@@ -26,51 +27,86 @@ const messages = [
 
   {
     text: "It looks pretty today. 당신처럼요.",
-    image: images/cheri.jpg
+    image: "cheri.jpg"
   }
+
 ];
+
 
 const card = document.getElementById("messageCard");
 const message = document.getElementById("message");
+
 const imageContainer = document.getElementById("imageContainer");
 const messageImage = document.getElementById("messageImage");
 
 let currentMessage = 0;
 
 
-/* SHOW MESSAGE */
+/* DISPLAY MESSAGE */
 
 function showMessage(index) {
 
   const current = messages[index];
 
+  /*
+    Fade out
+  */
+
   card.classList.remove("show");
   card.classList.add("hide");
 
+
   setTimeout(() => {
+
+    /*
+      Change text
+    */
 
     message.textContent = current.text;
 
-    if (current.image) {
+
+    /*
+      Handle image
+    */
+
+    if (current.image !== null) {
+
+      messageImage.src = current.image;
 
       imageContainer.style.display = "block";
-      messageImage.src = current.image;
+
+      /*
+        If the image cannot be found,
+        hide the image instead of breaking
+        the message system.
+      */
+
+      messageImage.onerror = function () {
+        imageContainer.style.display = "none";
+      };
 
     } else {
 
       imageContainer.style.display = "none";
-      messageImage.src = "";
+
+      messageImage.removeAttribute("src");
 
     }
+
+
+    /*
+      Fade back in
+    */
 
     card.classList.remove("hide");
     card.classList.add("show");
 
   }, 150);
+
 }
 
 
-/* CLICK = NEXT MESSAGE */
+/* CLICK CARD = NEXT MESSAGE */
 
 card.addEventListener("click", function () {
 
@@ -87,4 +123,4 @@ card.addEventListener("click", function () {
 
 /* FIRST MESSAGE */
 
-card.classList.add("show");
+showMessage(0);
