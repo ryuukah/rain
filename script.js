@@ -17,7 +17,7 @@ const messages = [
 
   {
     text: "You forgot this in my house... Will you come over soon?",
-    image: "bracelet.jpg"
+    image: "photo1.jpg"
   },
 
   {
@@ -27,63 +27,99 @@ const messages = [
 
   {
     text: "It looks pretty today. 당신처럼요.",
-    image: "cheri.jpg"
+    image: "photo2.jpg"
   }
 
 ];
 
 
 const card = document.getElementById("messageCard");
+const contentWrapper = document.getElementById("contentWrapper");
+
 const message = document.getElementById("message");
 
-const imageContainer = document.getElementById("imageContainer");
-const messageImage = document.getElementById("messageImage");
+const imageContainer =
+  document.getElementById("imageContainer");
+
+const messageImage =
+  document.getElementById("messageImage");
+
 
 let currentMessage = 0;
 
+let isChanging = false;
 
-/* DISPLAY MESSAGE */
 
-function showMessage(index) {
+/* =========================================================
+   HEIGHT CALCULATION
+========================================================= */
+
+function getContentHeight() {
+
+  /*
+    Temporarily let the card determine its natural height.
+  */
+
+  card.style.height = "auto";
+
+  /*
+    offsetHeight gives us the exact rendered height,
+    including padding and header.
+  */
+
+  return card.scrollHeight;
+}
+
+
+/* =========================================================
+   SET CARD HEIGHT
+========================================================= */
+
+function setCardHeight() {
+
+  const height = getContentHeight();
+
+  card.style.height = `${height}px`;
+}
+
+
+/* =========================================================
+   DISPLAY MESSAGE
+========================================================= */
+
+function updateMessage(index) {
 
   const current = messages[index];
 
   /*
-    Fade out
+    Start cross-fade.
   */
 
-  card.classList.remove("show");
-  card.classList.add("hide");
+  contentWrapper.classList.add("fading");
 
+
+  /*
+    Wait for the opacity transition to begin.
+  */
 
   setTimeout(() => {
 
     /*
-      Change text
+      Replace the text.
     */
 
     message.textContent = current.text;
 
 
     /*
-      Handle image
+      Handle image messages.
     */
 
-    if (current.image !== null) {
-
-      messageImage.src = current.image;
+    if (current.image) {
 
       imageContainer.style.display = "block";
 
-      /*
-        If the image cannot be found,
-        hide the image instead of breaking
-        the message system.
-      */
-
-      messageImage.onerror = function () {
-        imageContainer.style.display = "none";
-      };
+      messageImage.src = current.image;
 
     } else {
 
@@ -95,20 +131,54 @@ function showMessage(index) {
 
 
     /*
-      Fade back in
+      Wait one frame so the browser has calculated
+      the new content dimensions.
     */
 
-    card.classList.remove("hide");
-    card.classList.add("show");
+    requestAnimationFrame(() => {
 
-  }, 150);
+      requestAnimationFrame(() => {
 
+        /*
+          Calculate the new card height.
+        */
+
+        setCardHeight();
+
+
+        /*
+          Bring the content back.
+        */
+
+        contentWrapper.classList.remove("fading");
+
+        isChanging = false;
+
+      });
+
+    });
+
+  }, 200);
 }
 
 
-/* CLICK CARD = NEXT MESSAGE */
+/* =========================================================
+   CLICK = NEXT MESSAGE
+========================================================= */
 
-card.addEventListener("click", function () {
+card.addEventListener("click", () => {
+
+  /*
+    Prevent double-clicks from interrupting
+    the height animation.
+  */
+
+  if (isChanging) {
+    return;
+  }
+
+  isChanging = true;
+
 
   currentMessage++;
 
@@ -116,11 +186,64 @@ card.addEventListener("click", function () {
     currentMessage = 0;
   }
 
-  showMessage(currentMessage);
+
+  updateMessage(currentMessage);
 
 });
 
 
-/* FIRST MESSAGE */
+/* =========================================================
+   IMAGE LOADING
+========================================================= */
 
-showMessage(0);
+messageImage.addEventListener("load", () => {
+
+  /*
+    Once an image finishes loading, recalculate
+    the card because its actual height is now known.
+  */
+
+  setCardHeight();
+
+});
+
+
+/* =========================================================
+   IMAGE ERROR
+========================================================= */
+
+messageImage.addEventListener("error", () => {
+
+  /*
+    If the image filename is wrong or the file
+    doesn't exist, don't let the card break.
+  */
+
+  imageContainer.style.display = "none";
+
+  setCardHeight();
+
+});
+
+
+/* =========================================================
+   INITIAL MESSAGE
+========================================================= */
+
+message.textContent = messages[0].text;
+
+imageContainer.style.display = "none";
+
+
+/*
+  Wait until the browser has rendered everything,
+  then calculate the initial card height.
+*/
+
+requestAnimationFrame(() => {
+
+  setCardHeight();
+
+  card.style.height = `${card.scrollHeight}px`;
+
+});
