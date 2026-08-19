@@ -14,10 +14,24 @@ body {
 body {
   background: #191919;
 
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 
   overflow: hidden;
+
+  -webkit-font-smoothing: antialiased;
 }
+
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 .page {
   width: 100vw;
@@ -26,146 +40,261 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  padding: 20px;
 }
 
-/* CARD */
+
+/* =========================================================
+   OUTER CARD
+========================================================= */
 
 .message-card {
-  width: 330px;
-  min-height: 105px;
+  width: min(360px, calc(100vw - 40px));
 
-  padding: 10px 11px 11px;
+  /*
+    The height is controlled by JavaScript.
+    This allows the card to smoothly animate between
+    different content heights.
+  */
+  height: auto;
 
-  background: #d7d7d7;
+  padding: 12px;
 
-  border-radius: 11px;
+  background: #e2e4e7;
+
+  border-radius: 24px;
 
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.45),
-    0 2px 5px rgba(0, 0, 0, 0.3);
+    0 12px 32px rgba(0, 0, 0, 0.12);
+
+  overflow: hidden;
 
   cursor: pointer;
 
   user-select: none;
 
+  -webkit-tap-highlight-color: transparent;
+
   transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
+    height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-/* HEADER */
+
+/*
+  Small press effect.
+*/
+
+.message-card:active {
+  transform: scale(0.985);
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 .message-header {
-  height: 27px;
+  min-height: 30px;
 
   display: flex;
   align-items: center;
 
-  gap: 5px;
+  gap: 6px;
 
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+
+  padding: 0 3px;
 }
 
 .avatar {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
 
-  border-radius: 6px;
+  flex: 0 0 26px;
 
   object-fit: cover;
 
-  background: #999;
+  border-radius: 9px;
 
-  flex-shrink: 0;
+  background: #d0d2d5;
+
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .username {
-  font-size: 11px;
-  font-weight: 600;
+  color: #17181a;
 
-  color: #202020;
+  font-size: 11px;
+  font-weight: 650;
+
+  letter-spacing: -0.1px;
 
   white-space: nowrap;
 }
 
 .username-extra {
+  color: #303236;
+
   font-size: 9px;
 
-  color: #222;
-
   white-space: nowrap;
+
+  opacity: 0.8;
 }
 
-/* TEXT */
 
-.message {
+/* =========================================================
+   CONTENT WRAPPER
+========================================================= */
+
+.content-wrapper {
   width: 100%;
 
-  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  /*
+    This is the element that fades during transitions.
+  */
+
+  opacity: 1;
+
+  transition:
+    opacity 0.2s ease;
+
+  will-change: opacity;
+}
+
+.content-wrapper.fading {
+  opacity: 0;
+}
+
+
+/* =========================================================
+   WHITE PILL TEXT
+========================================================= */
+
+.message-pill {
+  width: 100%;
+
+  min-height: 42px;
+
+  padding: 12px 15px;
 
   display: flex;
   align-items: center;
 
-  background: #f5f5f5;
+  background: #ffffff;
 
-  border-radius: 10px;
+  color: #17181a;
 
-  color: #292929;
+  border-radius: 9999px;
+
+  /*
+    Subtle inset depth.
+  */
+
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
   font-size: 11px;
-  line-height: 1.3;
 
-  min-height: 29px;
+  line-height: 1.45;
 
-  word-break: normal;
+  letter-spacing: -0.05px;
+
+  overflow-wrap: anywhere;
+
+  transition:
+    opacity 0.2s ease;
 }
 
-/* MESSAGE IMAGE */
 
-.message-image {
+/* =========================================================
+   WHITE PILL IMAGE
+========================================================= */
+
+.image-pill {
   display: none;
 
   width: 100%;
 
-  margin-top: 6px;
+  padding: 5px;
 
-  border-radius: 9px;
+  background: #ffffff;
+
+  border-radius: 9999px;
+
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
   overflow: hidden;
 }
 
-.message-image img {
+.image-pill img {
   display: block;
 
   width: 100%;
   height: auto;
 
-  max-height: 220px;
+  max-height: 240px;
 
   object-fit: cover;
+
+  border-radius: 9999px;
 }
 
-/* CLICK ANIMATION */
 
-.message-card.hide {
-  opacity: 0;
-
-  transform: scale(0.97);
-}
-
-.message-card.show {
-  opacity: 1;
-
-  transform: scale(1);
-}
-
-/* MOBILE */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 500px) {
 
+  .page {
+    padding: 15px;
+  }
+
   .message-card {
-    width: calc(100vw - 40px);
-    max-width: 330px;
+    width: calc(100vw - 30px);
+
+    padding: 11px;
+
+    border-radius: 22px;
+  }
+
+  .message-pill {
+    font-size: 11px;
+
+    padding:
+      11px 14px;
+  }
+
+  .image-pill img {
+    max-height: 200px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .message-card,
+  .content-wrapper {
+    transition: none;
   }
 
 }
