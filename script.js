@@ -17,7 +17,7 @@ const messages = [
 
   {
     text: "You forgot this in my house... Will you come over soon?",
-    image: "photo1.jpg"
+    image: "bracelet.jpg"
   },
 
   {
@@ -27,7 +27,7 @@ const messages = [
 
   {
     text: "It looks pretty today. 당신처럼요.",
-    image: "photo2.jpg"
+    image: "cheri.jpg"
   }
 
 ];
