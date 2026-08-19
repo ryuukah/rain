@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>messages</title>
+  <title>Messages</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,34 +13,43 @@
 
   <main class="page">
 
-    <div class="message-card" id="messageCard">
+    <article class="message-card" id="messageCard">
 
-      <div class="message-header">
+      <header class="message-header">
 
-        <!-- Change avatar.gif to the exact name of your icon file -->
         <img
           class="avatar"
-          src="taehyung.gif"
-          alt="avatar"
+          src="avatar.gif"
+          alt=""
         >
 
         <span class="username">tete</span>
 
         <span class="username-extra">
-          do NOT answer (¬_¬")
+          dO NOT answer (¬_¬")
         </span>
 
+      </header>
+
+
+      <!--
+        This wrapper is what fades between messages.
+      -->
+      <div class="content-wrapper" id="contentWrapper">
+
+        <div class="message-pill" id="message">
+        </div>
+
+        <div class="image-pill" id="imageContainer">
+          <img id="messageImage" src="" alt="">
+        </div>
+
       </div>
 
-      <div class="message" id="message"></div>
-
-      <div class="message-image" id="imageContainer">
-        <img id="messageImage" src="" alt="">
-      </div>
-
-    </div>
+    </article>
 
   </main>
+
 
   <script src="script.js"></script>
 
